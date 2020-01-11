@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "switch dns",
+  "version": "1.0.0",
+  "description": "本扩展可配置多个代理方案, 并在不同的方案间快速的切换, 适合开发人员使用",
+  "author": {
+    "name": "clc",
+    "email": "lengchars@gmail.com"
+  },
+  "icons": {
+    "16": "images/16.png",
+    "48": "images/48.png",
+    "128": "images/128.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "images/16.png",
+      "48": "images/48.png",
+      "128": "images/128.png"
+    },
+    "default_popup": "dist/popup.html"
+  },
+  "options_ui": {
+    "page": "dist/options.html",
+    "open_in_tab": true
+  },
+  "permissions": [
+    "proxy"
+  ]
+}
