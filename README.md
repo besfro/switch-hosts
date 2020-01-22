@@ -1,7 +1,7 @@
 # switch-dns
 这是一个快速切换Dns方案的Chrome扩展工具, 适合开发使用.  
 可能你需要为多种环境配置不同的Dns, 例如 dev、test、public、prod .  
-扩展使用 chrome.proxy 去实现Dns解析, 会覆盖其他代理工具（例如ss）.  
+扩展使用 chrome.proxy 去实现Dns解析, 会优先于系统代理工具（例如ss）.  
 See [Chrome Extension Api](https://developer.chrome.com/extensions/proxy) 
 
 

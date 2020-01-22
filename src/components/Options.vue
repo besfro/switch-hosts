@@ -24,7 +24,7 @@
               <a-icon v-show="item.hover && closable" class="nav-icon fade-enter-active" type="close" @click.stop="delteOne(index)" />
             </div>
           </template>
-          <host-editer height="600px" :content="item.content"></host-editer>
+          <host-editer height="600px" :content="item.content" @change="editerChange(item, arguments)"></host-editer>
         </a-tab-pane>
         <template v-slot:tabBarExtraContent>
           <div class="button">
@@ -37,11 +37,14 @@
 </template>
 
 <script>
+import dnsProxy from '@/assets/js/dnsProxy' 
+import storage from '@/assets/js/storage'
 import HostEditer from '@/components/HostEditer'
 export default {
   name: 'Options',
   data() {
     return {
+      watcherLock: false,
       tabs: []
     }
   },
@@ -67,21 +70,48 @@ export default {
     }
   },
   mounted() {
-    this.addOne({title: 'dev'})
-    this.addOne({title: 'test'})
-    this.addOne({title: 'prod'})
+    // 读取 storage 数据
+    storage.getStorage()
+      .then(value => {
+        console.log('get', value)
+        this.watcherLock = true
+        this.tabs = value
+      })
   },
   components: {
     HostEditer
   },
   methods: {
+    editerChange(item, [hosts, text]) {
+      item.hosts = hosts
+      item.content = text
+      // 设置 Proxy
+      if(item.actived) {
+        dnsProxy.setProxy(hosts)
+      }
+    },
+    saveStorage() {
+      console.group('save storage')
+      console.log(this.tabs)
+      console.groupEnd('save storage')
+      storage.saveStorage(this.tabs)
+    },
     switchDns(item) {
-      const {id, actived} = item
-      actived && this.tabs.forEach(item => {
-        if(item.id !== id) {
-          item.actived = false
-        }
-      })
+      const {id, actived, hosts} = item
+      
+      if(actived) {
+        this.tabs.forEach(item => {
+          if(item.id !== id) {
+            item.actived = false
+          }
+        })
+        // 切换Dns代理
+        dnsProxy.setProxy(hosts)
+      } else {
+        let findActived = this.tabs.filter(item => item.actived)
+        // 没有勾选清除代理
+        findActived.length <= 0 && dnsProxy.clear()
+      }
     },
     editTitle(item) {
       item.titleEditing = true
@@ -90,22 +120,25 @@ export default {
         el && el.focus()
       })
     },
-    addOne(options) {
-      const count = this.addOne.count = (this.addOne.count || 0) + 1
-      const def = {
-        id: `sp-tab-key-${count}`,
-        title: 'your name',
-        content: `# switch dns \n 127.0.0.1 localhost`,
-        actived: false,
-        hover: false, 
-        titleEditing: false,
-        contentEditing: false
-      }
-      Object.assign(def, options)
+    addOne() {
+      const def = storage.defaultData[0]
+      def.id = `sd-key-${performance.now()}`,
       this.tabs.push(def)
     },
     delteOne(index) {
       this.tabs.splice(index, 1)
+    }
+  },
+  watch: {
+    tabs: {
+      deep: true,
+      handler() {
+        if(!this.watcherLock) {
+          this.saveStorage()
+        } else {
+          this.watcherLock = false
+        }
+      }
     }
   }
 }

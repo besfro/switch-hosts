@@ -6,7 +6,6 @@
  * @LastEditTime: 2019-12-13 15:13:58
  */
 
-// 为每一行数据生成一个实例
 import {type} from '@/utils/utils' 
 
 class Matcher {

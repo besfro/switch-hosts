@@ -42,6 +42,17 @@ class HostParser {
     )
 
     lines.forEach(item => {
+      // 如果是空行
+      if(!item || item === ' ') {
+        item = '&nbsp;'
+      }
+
+      if(item === this.anchorText) {
+        item = `&nbsp;${this.anchorText}`
+      }
+
+      console.log(item)
+
       const parseInfo = {}
       // 锚文本
       const anchorText = this.anchorText
@@ -50,10 +61,12 @@ class HostParser {
         item = item.replace(anchorText, '')
         parseInfo.anchorIndex = findAnchorIndex
       }
+
       Object.assign(
         parseInfo,
         this.matcher.match(item)
       )
+      
       this._replace(parseInfo)
       this._addLine(parseInfo)
     })
@@ -261,7 +274,7 @@ class HostParser {
 
   _getDefaultRules() {
     const startRegexpStr = '^\\s*'
-    const hostRegexpStr = '((?:\\d{1,3}\\.){3}\\d{1,3})(?:\\s+)([a-z]+(?:\\.[a-z]+)*)'
+    const hostRegexpStr = '((?:\\d{1,3}\\.){3}\\d{1,3}(?:\\:\\d+)*)(?:\\s+)([a-z]+(?:\\.[a-z]+)*)'
     const commentsRegexpStr = '(#+.*)'
     return [
       {

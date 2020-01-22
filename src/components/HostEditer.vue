@@ -7,9 +7,7 @@
  -->
 <template>
   <div class="container" :style="{height: height, width: width}">
-    <div class="editer" spellcheck="false" contenteditable ref="editer" @keydown.ctrl.90="back" @keydown.ctrl.89="forward">
-      {{content}}
-    </div>
+    <div class="editer" spellcheck="false" contenteditable ref="editer" @keydown.ctrl.90="back" @keydown.ctrl.89="forward"></div>
     <div class="tool">
     
     </div>  
@@ -67,7 +65,11 @@ const getLastChild = el => {
 export default {
   data() {
     return {
-      // 编辑器内容解析对象
+      // 光标占位符
+      rangePlaceholder: '{|}',
+      // 编辑器文本内容
+      editerText: '',
+      // 解析器
       parser: null,
       // 是否正在输入
       // 主要用来处理中文输入的问题
@@ -107,13 +109,14 @@ export default {
   },
   mounted() {
     this.emiter = debounce(this.emiter, 1000)
+    this.editerText = this.content
     this.mutationObserver = new CharacterMutation({
       handler: this.textParser,
       el: this.editer
     })
     this.listenComposition()
     this.initialParser()
-    this.textParser()
+    this.doParser()
   },
   destory() {
     this.mutationObserver.disconnect()
@@ -138,13 +141,17 @@ export default {
       }
       // 插入光标描述符
       // 用文本记录当前光标位置
-      document.execCommand('insertText', true, '{|}')
-      
-      const el = this.editer
-      const content = el.innerText
-    
+      document.execCommand('insertText', true, this.rangePlaceholder)
+      this.editerText = this.editer.innerText 
+      this.doParser()
+      // 删除光标标记
+      this.editerText = this.editerText.replace(this.rangePlaceholder, '')
+      // 通知
+      this.emiter()
+    },
+    doParser() {
       // 解析文本
-      this.parser.parse(content)
+      this.parser.parse(this.editerText)
       // 渲染编辑器
       this.editerRender()
     },
@@ -159,8 +166,20 @@ export default {
       this.setRange()
       // 重新开启监听
       this.mutationObserver.connect()
-      // 通知
-      this.emiter()
+    },
+    getParserHost() {
+      const hosts = []
+      this.parser.linesParseData.forEach(item => {
+        const matches = item.matches
+        if(matches.host) {
+          const [ip, host] = matches.host
+          hosts.push({
+            ip: ip.match,
+            host: host.match
+          })
+        }
+      })
+      return hosts
     },
     setRange() {
       const anchor = this.editer.querySelector('.anchor')
@@ -198,7 +217,19 @@ export default {
       }
     },
     emiter() {
-      
+      const hosts = this.getParserHost()
+      this.$emit('change', hosts, this.editerText)
+    }
+  },
+  watch: {
+    content: {
+      deep: true,
+      handler() {
+        if(this.editerText !== this.content) {
+          this.editerText = this.content 
+          this.doParser()
+        }
+      }
     }
   }
 }

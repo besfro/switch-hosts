@@ -24,6 +24,12 @@ module.exports = {
       title: 'popup'
     }
   },
+  devServer: {
+    allowedHosts: [
+      'test.com',
+      'hh.baidu.com'
+    ]
+  },
   configureWebpack: {
     resolve: {
       alias: {

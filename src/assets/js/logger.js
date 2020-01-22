@@ -6,14 +6,15 @@
  * @LastEditTime: 2019-12-13 11:32:57
  */
 
+import config from '@/assets/js/config'
 import {debounce} from '@/utils/utils'
  
 class Logger {
-  constructor(max) {
-    this.max = max || 1000
+  constructor() {
+    this.max = config.loggerMax || 1000
     this.min = -1
     this.addRecord = debounce(this.addRecord.bind(this))
-    this.clean()
+    this.clean() 
   }
 
   clean() {
