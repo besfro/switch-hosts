@@ -1,5 +1,5 @@
 /*
- * @Description: Dns proxy
+ * @Description: hosts proxy
  * @Author: clc
  * @Date: 2019-12-13 18:01:22
  * @LastEditors: clc
@@ -10,7 +10,7 @@ import chrome from 'chrome'
 import config from '@/assets/js/config'
 import { type } from '@/utils/utils'
 
-class DnsProxy {
+class HostProxy {
   constructor() {
     this.scope = config.scope 
     this.hosts = []
@@ -83,4 +83,4 @@ class DnsProxy {
   }
 }
 
-export default new DnsProxy()
+export default new HostProxy()

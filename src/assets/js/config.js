@@ -1,6 +1,6 @@
 export default {
     // name space
-    nameSpace: 'switch-dns-hosts',
+    nameSpace: 'switch-hosts',
     // chrome 配置范围
     // https://developer.chrome.com/apps/types
     scope: 'regular',
@@ -12,7 +12,7 @@ export default {
         {
             id: `sd-key-default`,
             title: 'your name',
-            content: `# switch dns \n 127.0.0.1 localhost`,
+            content: `# switch hosts \n 127.0.0.1 localhost`,
             actived: false,
             hover: false, 
             titleEditing: false,

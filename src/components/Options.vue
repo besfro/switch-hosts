@@ -7,7 +7,7 @@
  -->
 <template>
   <div class="container">
-    <div class="title"><a href="#"><i>Switch Dns</i></a></div>
+    <div class="title"><a href="#"><i>Switch Hosts</i></a></div>
     <div class="tab-wrapp">
       <a-tabs class="tabs cus-tabs" type="editable-card" defaultActiveKey="defaultActiveKey" 
       :hideAdd="true" :tabBarStyle="tabBarStyle" :tabBarGutter="0" tabPosition="left">
@@ -15,7 +15,7 @@
           <template v-slot:tab>
             <div class="tabs-nav" @mouseenter="item.hover = true" @mouseleave="item.hover = false">
               <div class="nav-title">
-                <a-switch v-model="item.actived" size="small" @click="switchDns(item)" />
+                <a-switch v-model="item.actived" size="small" @click="switchHost(item)" />
                 <input v-if="item.titleEditing" v-model="item.title" class="text text-ellipsis" 
                 :title="item.title" @blur="item.titleEditing = false" @keyup.13="item.titleEditing = false" :ref="`input-${item.id}`">
                 <span v-else class="text text-ellipsis" :title="item.title">{{item.title}}</span>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import dnsProxy from '@/assets/js/dnsProxy' 
+import hostProxy from '@/assets/js/hostProxy' 
 import storage from '@/assets/js/storage'
 import HostEditer from '@/components/HostEditer'
 export default {
@@ -87,7 +87,7 @@ export default {
       item.content = text
       // 设置 Proxy
       if(item.actived) {
-        dnsProxy.setProxy(hosts)
+        hostProxy.setProxy(hosts)
       }
     },
     saveStorage() {
@@ -96,7 +96,7 @@ export default {
       console.groupEnd('save storage')
       storage.saveStorage(this.tabs)
     },
-    switchDns(item) {
+    switchHost(item) {
       const {id, actived, hosts} = item
       
       if(actived) {
@@ -106,11 +106,11 @@ export default {
           }
         })
         // 切换Dns代理
-        dnsProxy.setProxy(hosts)
+        hostProxy.setProxy(hosts)
       } else {
         let findActived = this.tabs.filter(item => item.actived)
         // 没有勾选清除代理
-        findActived.length <= 0 && dnsProxy.clear()
+        findActived.length <= 0 && hostProxy.clear()
       }
     },
     editTitle(item) {

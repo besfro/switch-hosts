@@ -99,7 +99,7 @@ export default {
     },
     content: {
       type: String,
-      default: '# switch dns'
+      default: '# switch hosts'
     }
   },
   computed: {
@@ -146,14 +146,14 @@ export default {
       this.doParser()
       // 删除光标标记
       this.editerText = this.editerText.replace(this.rangePlaceholder, '')
-      // 通知
-      this.emiter()
     },
     doParser() {
       // 解析文本
       this.parser.parse(this.editerText)
       // 渲染编辑器
       this.editerRender()
+      // 通知
+      this.emiter()
     },
     editerRender() {
       const el = this.editer
