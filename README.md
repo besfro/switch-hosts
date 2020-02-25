@@ -4,6 +4,11 @@
 扩展使用 chrome.proxy 去实现解析, 会优先于系统代理工具（例如ss）.  
 See [Chrome Extension Api](https://developer.chrome.com/extensions/proxy) 
 
+菜单扩展 pupop 
+![image](https://github.com/besfro/switch-hosts/blob/master/public/pupop.jpg)
+
+设置 options 
+![image](https://github.com/besfro/switch-hosts/blob/master/public/options.jpg)
 
 ## Project setup
 ```
