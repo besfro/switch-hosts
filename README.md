@@ -6,10 +6,10 @@ See [Chrome Extension Api](https://developer.chrome.com/extensions/proxy)
 
 
 ## 菜单扩展 pupop 
-![image](https://github.com/besfro/switch-hosts/blob/master/public/pupop.jpg)
+![image](https://github.com/besfro/switch-hosts/blob/master/public/pupop.png)
 
 ## 设置 options 
-![image](https://github.com/besfro/switch-hosts/blob/master/public/options.jpg)
+![image](https://github.com/besfro/switch-hosts/blob/master/public/options.png)
 
 ## Project setup
 ```
