@@ -6,11 +6,11 @@ Host 方案及时生效, 没有系统缓存和浏览器缓存.
 See [Chrome Extension Api](https://developer.chrome.com/extensions/proxy) 
 
 # 注意
-不支持https, 类似 https:// 这样的 URL 中的路径和查询组件已被去除
-[MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_(PAC)_file)
-Chrome 75 以前可以尝试设置 PacHttpsUrlStrippingEnabled 
-[废弃政策](https://support.google.com/chrome/a/answer/7643500?hl=zh-Hant)
-[PacHttpsUrlStrippingEnabled](https://cloud.google.com/docs/chrome-enterprise/policies/?policy=PacHttpsUrlStrippingEnabled)
+不支持https, 类似 https:// 这样的 URL 中的路径和查询组件已被去除 .
+[MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_(PAC)_file) .
+Chrome 75 以前可以尝试设置 PacHttpsUrlStrippingEnabled .
+[废弃政策](https://support.google.com/chrome/a/answer/7643500?hl=zh-Hant) .
+[PacHttpsUrlStrippingEnabled](https://cloud.google.com/docs/chrome-enterprise/policies/?policy=PacHttpsUrlStrippingEnabled) .
 
 
 ## 设置 options 
